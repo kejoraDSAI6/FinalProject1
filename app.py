@@ -15,7 +15,7 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 # Download the model components from Google Drive
-url = 'https://drive.google.com/file/d/1LMWsY9iExrAW1l3OZQAdNAQCEOAUZX95/view?usp=drive_link'
+url = 'https://drive.google.com/file/d/1c7uj8FpTRU-xb_kIVWHv0wzDos34Fa-M/view?usp=drive_link'
 output = 'model_components.pkl'
 gdown.download(url, output, quiet=False)
 
