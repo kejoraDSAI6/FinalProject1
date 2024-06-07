@@ -7,11 +7,17 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
+import gdown
 
 import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
+
+# Download the model components from Google Drive
+url = 'https://drive.google.com/file/d/1c7uj8FpTRU-xb_kIVWHv0wzDos34Fa-M/view?usp=drive_link'
+output = 'model_components.pkl'
+gdown.download(url, output, quiet=False)
 
 # Load dataset
 final_data = pd.read_csv('dataset.csv')
@@ -24,8 +30,6 @@ final_data['tipe_pendaftaran'] = final_data['tipe_pendaftaran'].replace({
     'OffsiteApply': 'Offsite Apply', 
     'SimpleOnsiteApply': 'Simple Onsite Apply'
 })
-
-
 
 # Load precomputed embeddings and dataset if available (to save time)
 with open('model_components.pkl', 'rb') as f:
@@ -70,8 +74,6 @@ else:
     city_option = np.sort(city_option)
     city_option = np.insert(np.delete(city_option, index), 0, 'Any')
 
-
-
 selected_city = st.selectbox('Select City', city_option)
 selected_type = st.selectbox('Select Job Type', type_options)
 selected_sponsor = st.selectbox('Select Sponsor Type', sponsor_options)
@@ -114,7 +116,7 @@ if st.button('Search Jobs'):
             # Compute cosine similarities
             cosine_sim_new = cosine_similarity([input_embedding], filtered_embeddings).flatten()
 
-            # Get top 10 similar jobs
+            # Get top 3 similar jobs
             top_3_indices = cosine_sim_new.argsort()[-3:][::-1]
             top_3_jobs = filtered_data.iloc[top_3_indices][['judul', 'url_posting_pekerjaan']]
 
