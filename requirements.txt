@@ -6,3 +6,4 @@ nltk
 gdown
 gensim
 scipy==1.10.1
+nltk
