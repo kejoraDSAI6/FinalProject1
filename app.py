@@ -7,8 +7,9 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
-
+import gdown
 import nltk
+
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -20,10 +21,21 @@ final_data = final_data[final_data.state != 'No Info']
 final_data['state'] = final_data['state'].str.title()
 final_data['city'] = final_data['city'].str.title()
 
-# Load precomputed embeddings and dataset if available (to save time)
+# Define the Google Drive file IDs
+glove_vectors_id = '1TF69O5cRt7uJVI3KLGP3yNt7j5XbElkw'
+corpus_embeddings_id = '1LMWsY9iExrAW1l3OZQAdNAQCEOAUZX95'
+
+# Download GloVe vectors from Google Drive
+gdown.download('https://drive.google.com/uc?id=' + glove_vectors_id, 'glove_vectors.model', quiet=False)
+
+# Download corpus embeddings from Google Drive
+gdown.download('https://drive.google.com/uc?id=' + corpus_embeddings_id, 'corpus_embeddings.pkl', quiet=False)
+
+# Load GloVe vectors
 with open('glove_vectors.model', 'rb') as f:
     glove_vectors = pickle.load(f)
 
+# Load corpus embeddings
 with open('corpus_embeddings.pkl', 'rb') as f:
     corpus_embeddings = pickle.load(f)
 
